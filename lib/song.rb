@@ -1,4 +1,8 @@
-require 'pry'
+ require 'pry'
+
+require_relative './concerns/memorable.rb'
+require_relative './concerns/findable.rb'
+require_relative './concerns/paramable.rb'
 
 class Song
   attr_accessor :name
@@ -9,10 +13,15 @@ class Song
   def initialize
     @@songs << self
   end
+  extend Memorable::ClassMethods
+  include Memorable::InstanceMethods
+  extend Findable
+  include Paramable
 
   def self.find_by_name(name)
     @@songs.detect{|a| a.name == name}
   end
+  @@songs = []
 
   def self.all
     @@songs
